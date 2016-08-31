@@ -2,6 +2,9 @@ package br.aeso.blog;
 
 import java.util.ArrayList;
 
+import br.aeso.conteudo.Conteudo;
+import br.aeso.usuario.Usuario;
+
 public class Blog {
 	private String data;
 	private Usuario dono;
