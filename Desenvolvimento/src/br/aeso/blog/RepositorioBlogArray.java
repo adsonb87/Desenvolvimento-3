@@ -23,19 +23,34 @@ public class RepositorioBlogArray implements IRepositorioBlog{
 
 	@Override
 	public void atualizar(Blog blog) {
-		// TODO Auto-generated method stub
+		if(existe(blog.getDono())){
+			for(int i=0; i<listaBlog.size();i++){
+				if(listaBlog.get(i).equals(blog)){
+					listaBlog.set(i, blog);
+				}
+			}
+		}
 		
 	}
 
 	@Override
 	public boolean remover(Blog blog) {
-		// TODO Auto-generated method stub
+		if(existe(blog.getDono())){
+			listaBlog.remove(blog);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public Blog procurar(Usuario user) {
-		// TODO Auto-generated method stub
+		if(existe(user)){
+			for(int i=0; i<listaBlog.size();i++){
+				if(listaBlog.get(i).getDono().equals(user)){
+					return listaBlog.get(i);
+				}
+			}
+		}
 		return null;
 	}
 
@@ -52,9 +67,8 @@ public class RepositorioBlogArray implements IRepositorioBlog{
 	}
 
 	@Override
-	public ArrayList<Conteudo> conteudos() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Blog> listar() {
+		return listaBlog;
 	}
 	
 	

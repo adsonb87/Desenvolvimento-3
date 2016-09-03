@@ -12,5 +12,5 @@ public interface IRepositorioBlog {
 	public boolean remover (Blog blog);
 	public Blog procurar (Usuario user);
 	public boolean existe (Usuario user);
-	public ArrayList<Conteudo> conteudos();
+	public ArrayList<Blog> listar();
 }
