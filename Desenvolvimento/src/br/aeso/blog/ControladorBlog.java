@@ -1,5 +1,6 @@
 package br.aeso.blog;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import br.aeso.usuario.Usuario;
@@ -9,7 +10,12 @@ public class ControladorBlog {
 	private IRepositorioBlog repositorioBlog;
 	
 	public ControladorBlog() {
-		repositorioBlog = new RepositorioBlogArray();
+		try {
+			repositorioBlog = new RepositorioBlogJDBC();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void cadastrarBlog(Blog blog){
@@ -20,16 +26,22 @@ public class ControladorBlog {
 		repositorioBlog.atualizar(blog);
 	}
 	
-	public boolean removerBlog(Blog blog){
-		return repositorioBlog.remover(blog);
+	public boolean removerBlog(Integer id){
+		return repositorioBlog.remover(id);
 	}
 	
-	public Blog procurarBlog(Usuario user){
-		return repositorioBlog.procurar(user);
+	public Blog procurarBlog(Integer id){
+		return repositorioBlog.procurar(id);
 	}
 	
 	public ArrayList<Blog> listarBlog(){
-		return repositorioBlog.listar();
+		try {
+			return repositorioBlog.listar();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

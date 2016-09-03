@@ -3,6 +3,7 @@ package br.aeso.conteudo;
 import br.aeso.usuario.Usuario;
 
 public class Conteudo {
+	private Integer idConteudo;
 	private String data;
 	private String texto;
 	private Usuario autor;
@@ -17,6 +18,24 @@ public class Conteudo {
 
 	
 	
+	
+	
+	public Integer getIdConteudo() {
+		return idConteudo;
+	}
+
+
+
+
+
+	public void setIdConteudo(Integer idConteudo) {
+		this.idConteudo = idConteudo;
+	}
+
+
+
+
+
 	public TipoConteudo getTipo() {
 		return tipo;
 	}
@@ -55,10 +74,16 @@ public class Conteudo {
 
 
 
+
+
 	@Override
 	public String toString() {
-		return "Conteudo [data=" + data + ", texto=" + texto + ", autor=" + autor + ", tipo=" + tipo + "]";
+		return "Conteudo [idConteudo=" + idConteudo + ", data=" + data + ", texto=" + texto + ", autor=" + autor
+				+ ", tipo=" + tipo + "]";
 	}
+
+
+
 	
 	
 }

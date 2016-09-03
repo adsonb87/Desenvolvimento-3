@@ -6,6 +6,7 @@ import br.aeso.conteudo.Conteudo;
 import br.aeso.usuario.Usuario;
 
 public class Blog {
+	private Integer idBlog;
 	private String data;
 	private Usuario dono;
 	private String titulo;
@@ -17,6 +18,32 @@ public class Blog {
 		this.titulo = titulo;
 		conteudo = new ArrayList<>();
 	}
+	
+	
+
+	public Integer getIdBlog() {
+		return idBlog;
+	}
+
+
+
+	public void setIdBlog(Integer idBlog) {
+		this.idBlog = idBlog;
+	}
+
+
+
+	public ArrayList<Conteudo> getConteudo() {
+		return conteudo;
+	}
+
+
+
+	public void setConteudo(ArrayList<Conteudo> conteudo) {
+		this.conteudo = conteudo;
+	}
+
+
 
 	public String getData() {
 		return data;
@@ -54,9 +81,11 @@ public class Blog {
 		this.conteudo.remove(conteudo);
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Blog [data=" + data + ", dono=" + dono + ", titulo=" + titulo + "]";
+		return "Blog [idBlog=" + idBlog + ", data=" + data + ", dono=" + dono + ", titulo=" + titulo +  "]";
 	}
 
 	

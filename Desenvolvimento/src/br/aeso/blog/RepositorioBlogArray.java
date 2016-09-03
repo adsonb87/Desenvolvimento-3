@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import br.aeso.conteudo.Conteudo;
 import br.aeso.usuario.Usuario;
 
-public class RepositorioBlogArray implements IRepositorioBlog{
+public class RepositorioBlogArray {
 	
 	private ArrayList<Blog> listaBlog;
 	
@@ -15,7 +15,7 @@ public class RepositorioBlogArray implements IRepositorioBlog{
 	
 	@Override
 	public void cadastrar(Blog blog) {
-		if(!existe(blog.getDono())){
+		if(!existe(blog.getIdBlog())){
 			listaBlog.add(blog);
 		}
 		
@@ -23,7 +23,7 @@ public class RepositorioBlogArray implements IRepositorioBlog{
 
 	@Override
 	public void atualizar(Blog blog) {
-		if(existe(blog.getDono())){
+		if(existe(blog.getIdBlog())){
 			for(int i=0; i<listaBlog.size();i++){
 				if(listaBlog.get(i).equals(blog)){
 					listaBlog.set(i, blog);
@@ -35,7 +35,7 @@ public class RepositorioBlogArray implements IRepositorioBlog{
 
 	@Override
 	public boolean remover(Blog blog) {
-		if(existe(blog.getDono())){
+		if(existe(blog.getIdBlog())){
 			listaBlog.remove(blog);
 			return true;
 		}
@@ -43,10 +43,10 @@ public class RepositorioBlogArray implements IRepositorioBlog{
 	}
 
 	@Override
-	public Blog procurar(Usuario user) {
-		if(existe(user)){
+	public Blog procurar(Integer id) {
+		if(existe(id)){
 			for(int i=0; i<listaBlog.size();i++){
-				if(listaBlog.get(i).getDono().equals(user)){
+				if(listaBlog.get(i).getIdBlog().equals(id)){
 					return listaBlog.get(i);
 				}
 			}
@@ -55,10 +55,10 @@ public class RepositorioBlogArray implements IRepositorioBlog{
 	}
 
 	@Override
-	public boolean existe(Usuario user) {
-		if(!user.equals(null)){
+	public boolean existe(Integer id) {
+		if(id!=null){
 			for(int i=0; i<listaBlog.size();i++){
-				if(listaBlog.get(i).getDono().getNome().equals(user.getNome())){
+				if(listaBlog.get(i).getIdBlog().equals(id)){
 					return true;
 				}
 			}
