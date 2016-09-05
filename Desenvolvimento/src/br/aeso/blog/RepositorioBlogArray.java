@@ -13,7 +13,7 @@ public class RepositorioBlogArray {
 		listaBlog = new ArrayList<>();
 	}
 	
-	@Override
+	
 	public void cadastrar(Blog blog) {
 		if(!existe(blog.getIdBlog())){
 			listaBlog.add(blog);
@@ -21,7 +21,7 @@ public class RepositorioBlogArray {
 		
 	}
 
-	@Override
+	
 	public void atualizar(Blog blog) {
 		if(existe(blog.getIdBlog())){
 			for(int i=0; i<listaBlog.size();i++){
@@ -33,7 +33,7 @@ public class RepositorioBlogArray {
 		
 	}
 
-	@Override
+	
 	public boolean remover(Blog blog) {
 		if(existe(blog.getIdBlog())){
 			listaBlog.remove(blog);
@@ -42,7 +42,7 @@ public class RepositorioBlogArray {
 		return false;
 	}
 
-	@Override
+	
 	public Blog procurar(Integer id) {
 		if(existe(id)){
 			for(int i=0; i<listaBlog.size();i++){
@@ -54,7 +54,7 @@ public class RepositorioBlogArray {
 		return null;
 	}
 
-	@Override
+	
 	public boolean existe(Integer id) {
 		if(id!=null){
 			for(int i=0; i<listaBlog.size();i++){
@@ -66,7 +66,7 @@ public class RepositorioBlogArray {
 		return false;
 	}
 
-	@Override
+	
 	public ArrayList<Blog> listar() {
 		return listaBlog;
 	}
