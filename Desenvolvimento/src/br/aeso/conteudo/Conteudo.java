@@ -1,5 +1,6 @@
 package br.aeso.conteudo;
 
+import br.aeso.blog.Blog;
 import br.aeso.usuario.Usuario;
 
 public class Conteudo {
@@ -8,18 +9,36 @@ public class Conteudo {
 	private String texto;
 	private Usuario autor;
 	private TipoConteudo tipo;
+	private Blog blog;
 	
-	public Conteudo(String data, String texto, Usuario autor, TipoConteudo tipo) {
+	public Conteudo(String data, String texto, Usuario autor, TipoConteudo tipo, Blog blog) {
 		this.data = data;
 		this.texto = texto;
 		this.autor = autor;
 		this.tipo = tipo;
+		this.blog = blog;
 	}
 
 	
 	
 	
 	
+	public Blog getBlog() {
+		return blog;
+	}
+
+
+
+
+
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
+
+
+
+
+
 	public Integer getIdConteudo() {
 		return idConteudo;
 	}

@@ -7,7 +7,7 @@ public class ControladorUsuario {
 	private IRepositorioUsuario repositorioUsuario;
 	
 	public ControladorUsuario() {
-		repositorioUsuario = new RepositorioUsuarioArray();
+		repositorioUsuario = new RepositorioUsuarioJDBC();
 	}
 	
 	public void cadastrarUsuario(Usuario usuario){
@@ -18,16 +18,12 @@ public class ControladorUsuario {
 		repositorioUsuario.atualizar(usuario);
 	}
 	
-	public boolean removerUsuario(Usuario usuario){
-		if(usuario.getNome()!=null){
-			repositorioUsuario.remover(usuario);
-			return true;
-		}
-		return false;
+	public boolean removerUsuario(Integer id){
+		return repositorioUsuario.remover(id);
 	}
 	
-	public Usuario procurarUsuario(String nome){
-		return repositorioUsuario.procurar(nome);
+	public Usuario procurarUsuario(Integer id){
+		return repositorioUsuario.procurar(id);
 	}
 	
 	public ArrayList<Usuario> listarUsuario(){

@@ -12,7 +12,7 @@ public class RepositorioUsuarioArray implements IRepositorioUsuario{
 	
 	@Override
 	public void cadastrar(Usuario usuario) {
-		if(!existe(usuario.getNome())){
+		if(!existe(usuario.getId())){
 			listaUsuario.add(usuario);
 		}
 		
@@ -20,7 +20,7 @@ public class RepositorioUsuarioArray implements IRepositorioUsuario{
 
 	@Override
 	public void atualizar(Usuario usuario) {
-		if(existe(usuario.getNome())){
+		if(existe(usuario.getId())){
 			for(int i=0; i<listaUsuario.size();i++){
 				if(listaUsuario.get(i).equals(usuario)){
 					listaUsuario.set(i, usuario);
@@ -31,19 +31,19 @@ public class RepositorioUsuarioArray implements IRepositorioUsuario{
 	}
 
 	@Override
-	public boolean remover(Usuario usuario) {
-		if(existe(usuario.getNome())){
-			listaUsuario.remove(usuario);
+	public boolean remover(Integer id) {
+		if(existe(id)){
+			listaUsuario.remove(id);
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public Usuario procurar(String nome) {
-		if(existe(nome)){
+	public Usuario procurar(Integer id) {
+		if(existe(id)){
 			for(int i=0; i<listaUsuario.size();i++){
-				if(listaUsuario.get(i).getNome().equals(nome)){
+				if(listaUsuario.get(i).getId().equals(id)){
 					return listaUsuario.get(i);
 				}
 			}
@@ -52,10 +52,10 @@ public class RepositorioUsuarioArray implements IRepositorioUsuario{
 	}
 
 	@Override
-	public boolean existe(String nome) {
-		if(nome != null){
+	public boolean existe(Integer id) {
+		if(id != null){
 			for(int i=0; i<listaUsuario.size();i++){
-				if(listaUsuario.get(i).getNome().equals(nome)){
+				if(listaUsuario.get(i).getId().equals(id)){
 					return true;
 				}
 			}

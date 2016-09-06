@@ -7,26 +7,15 @@ import br.aeso.usuario.Usuario;
 
 public class Nota extends Conteudo{
 	
-	private Blog blog;
 	private ArrayList<Comentario> comentarios;
 	
 	public Nota(String data, String texto, Usuario autor, Blog blog) {
-		super(data, texto, autor, TipoConteudo.Nota);
+		super(data, texto, autor, TipoConteudo.Nota, blog);
 		comentarios = new ArrayList<>();
-		this.blog = blog;
 	}
 	
 		
-	public Blog getBlog() {
-		return blog;
-	}
-
-	public void setBlog(Blog blog) {
-		this.blog = blog;
-	}
-
-
-
+	
 	public ArrayList<Comentario> getComentarios() {
 		return comentarios;
 	}
@@ -52,11 +41,12 @@ public class Nota extends Conteudo{
 	}
 
 
+
 	@Override
 	public String toString() {
-		return "Nota [blog=" + blog + ", comentarios=" + comentarios + "]";
+		return "Nota [comentarios=" + comentarios + "]";
 	}
 
-	
+
 	
 }

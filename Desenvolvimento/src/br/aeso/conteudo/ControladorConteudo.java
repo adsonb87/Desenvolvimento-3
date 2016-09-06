@@ -6,7 +6,7 @@ import br.aeso.usuario.Usuario;
 
 public class ControladorConteudo {
 	
-	private IRepositorioConteudo repositorioConteudo;
+	private IRepositorioComentario repositorioConteudo;
 	
 	public ControladorConteudo() {
 		repositorioConteudo = new RepositorioConteudoArray();
