@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import com.mysql.jdbc.LoadBalancedMySQLConnection;
 
 import br.aeso.jdbc.Conexao;
+import br.aeso.usuario.Usuario;
 
 
 public class RepositorioBlogJDBC implements IRepositorioBlog{
@@ -85,14 +86,23 @@ public class RepositorioBlogJDBC implements IRepositorioBlog{
 
 	@Override
 	public Blog procurar(Integer id) {
-		String sql = "select * from blog";
+		String sql = "select * from blog inner join usuario on id_usuario_fk = id_usuario";
 		try {
 			PreparedStatement preStatement = con.prepareStatement(sql);
+			
 			ResultSet resultSet = preStatement.executeQuery();			
+			
 			while(resultSet.next()){
 				if(resultSet.getInt("id_blog") == id){
-					Blog blog = new Blog(resultSet.getString("data"), null, resultSet.getString("titulo"));
+					
+					Usuario user = new Usuario(resultSet.getString("nome"), resultSet.getString("email"));
+					
+					user.setId(resultSet.getInt("id_usuario"));
+					
+					Blog blog = new Blog(resultSet.getString("data"), user, resultSet.getString("titulo"));
+					
 					blog.setIdBlog(resultSet.getInt("id_blog"));
+					
 					return blog;
 				}
 			}
@@ -130,15 +140,19 @@ public class RepositorioBlogJDBC implements IRepositorioBlog{
 	@Override
 	public ArrayList<Blog> listar() throws SQLException {
 		ArrayList<Blog> listaBlog = new ArrayList<>();
-		String sql = "select * from blog";
+		String sql = "select * from blog inner join usuario on id_usuario_fk = id_usuario";	
 		
 		PreparedStatement preStatement = con.prepareStatement(sql);
 		
 		ResultSet resultSet = preStatement.executeQuery();
 				
 		while(resultSet.next()){
-			Blog blog = new Blog(resultSet.getString("data"), null, resultSet.getString("titulo"));
+			Usuario user = new Usuario(resultSet.getString("nome"), resultSet.getString("email"));
+			user.setId(resultSet.getInt("id_usuario"));
+			
+			Blog blog = new Blog(resultSet.getString("data"), user , resultSet.getString("titulo"));
 			blog.setIdBlog(resultSet.getInt(1));
+			
 			listaBlog.add(blog);
 		}
 		
