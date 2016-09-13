@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import br.aeso.blog.Blog;
 import br.aeso.blog.RepositorioBlogJDBC;
 import br.aeso.jdbc.Conexao;
 import br.aeso.usuario.RepositorioUsuarioJDBC;
+import br.aeso.usuario.Usuario;
 
 public class RepositorioNotaJDBC implements IRepositorioNota{
 	
@@ -90,25 +92,30 @@ public class RepositorioNotaJDBC implements IRepositorioNota{
 				+ "inner join blog on id_blog_fk = id_blog";
 		
 		try {
-			PreparedStatement preStatement = con.prepareStatement(sql);
-			ResultSet rs = preStatement.executeQuery();
+			PreparedStatement pstm = con.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
 			
 			while(rs.next()){
 				if(rs.getInt("id_nota") == id){
-					Conteudo nota = new Nota(rs.getString("data"), rs.getString("texto"), new RepositorioUsuarioJDBC().procurar(rs.getInt("id_usuario_fk")), new RepositorioBlogJDBC().procurar(rs.getInt("id_blog_fk")));
-					nota.setIdConteudo(rs.getInt("id_nota"));
+					Usuario user = new Usuario(rs.getString("nome"), rs.getString("email"));
+					user.setId(rs.getInt("id_usuario"));
+					
+					Blog blog = new Blog(rs.getString("data"), user, rs.getString("titulo"));
+					
+					Nota nota = new Nota(rs.getString(2), rs.getString("texto"), user, blog);
 					
 					return nota;
 				}
 			}
-			preStatement.close();
+			pstm.close();
 			rs.close();
 			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;		
+		
+		return null;
 	}
 
 	@Override
@@ -147,8 +154,15 @@ public class RepositorioNotaJDBC implements IRepositorioNota{
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()){
-				Conteudo nota = new Nota(rs.getString("data"), rs.getString("texto"), new RepositorioUsuarioJDBC().procurar(rs.getInt("id_usuario_fk")), new RepositorioBlogJDBC().procurar(rs.getInt("id_blog_fk")));
+				Usuario user = new RepositorioUsuarioJDBC().procurar(rs.getInt("id_usuario_fk"));
+				Blog blog = new RepositorioBlogJDBC().procurar(rs.getInt("id_blog_fk"));
+				
+				Nota nota = new Nota(rs.getString("data"),
+						rs.getString("texto"), 
+						user, 
+						blog);
 				nota.setIdConteudo(rs.getInt("id_nota"));
+				
 				
 				listaNota.add(nota);
 			}

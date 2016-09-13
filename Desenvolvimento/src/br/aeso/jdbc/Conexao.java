@@ -10,4 +10,8 @@ public class Conexao {
 		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection("jdbc:mysql://localhost/blog", "root","");
 	}
+	
+	private Conexao() {
+		// TODO Auto-generated constructor stub
+	}
 }

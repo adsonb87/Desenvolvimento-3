@@ -19,19 +19,41 @@ public class ControladorBlog {
 	}
 	
 	public void cadastrarBlog(Blog blog){
-		repositorioBlog.cadastrar(blog);
+		try {
+			repositorioBlog.cadastrar(blog);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void atualizarBlog(Blog blog){
-		repositorioBlog.atualizar(blog);
+		try {
+			repositorioBlog.atualizar(blog);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean removerBlog(Integer id){
-		return repositorioBlog.remover(id);
+		try {
+			return repositorioBlog.remover(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public Blog procurarBlog(Integer id){
-		return repositorioBlog.procurar(id);
+		try {
+			return repositorioBlog.procurar(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public ArrayList<Blog> listarBlog(){
@@ -41,6 +63,7 @@ public class ControladorBlog {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 	

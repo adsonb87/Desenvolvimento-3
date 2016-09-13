@@ -25,13 +25,13 @@ public class RepositorioBlogJDBC implements IRepositorioBlog{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		con = DriverManager.getConnection("jdbc:mysql://localhost/blog", "root","");
 	}
 	
 	@Override
-	public void cadastrar(Blog blog) {
-		String sql = "insert into blog (data, titulo, id_usuario) values (?,?,?)";
-		try {
+	public void cadastrar(Blog blog) throws SQLException {
+		String sql = "insert into blog (blog_data, blog_titulo, blog_id_usuario_fk) values (?,?,?)";
+		
+		if(!existe(blog.getIdBlog())){
 			PreparedStatement preStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			preStatement.setString(1, blog.getData());
 			preStatement.setString(2, blog.getTitulo());
@@ -39,17 +39,14 @@ public class RepositorioBlogJDBC implements IRepositorioBlog{
 			preStatement.execute();
 			con.close();
 			preStatement.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void atualizar(Blog blog) {
-		String sql = "update blog set data = ?, titulo = ?, id_usuario = ? where id_blog = ?";
+	public void atualizar(Blog blog) throws SQLException {
+		String sql = "update blog set blog_data = ?, blog_titulo = ?, blog_id_usuario_fk = ? where blog_id = ?";
 		
-		try {
+		if(existe(blog.getIdBlog())){
 			PreparedStatement preStatement = con.prepareStatement(sql);
 			preStatement.setString(1, blog.getData());
 			preStatement.setString(2, blog.getTitulo());
@@ -58,99 +55,88 @@ public class RepositorioBlogJDBC implements IRepositorioBlog{
 			preStatement.executeUpdate();
 			preStatement.close();
 			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-		
 	}
 
 	@Override
-	public boolean remover(Integer id) {
-		String sql = "delete from blog where id_blog = ?";
-		try {
+	public boolean remover(Integer id) throws SQLException {
+		String sql = "delete from blog where blog_id = ?";
+		
+		if(existe(id)){
 			PreparedStatement preStatement = con.prepareStatement(sql);
 			preStatement.setInt(1, id);
 			preStatement.executeUpdate();
 			preStatement.close();
 			con.close();
 			return true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		return false;
+		
 	}
 
 	@Override
-	public Blog procurar(Integer id) {
-		String sql = "select * from blog inner join usuario on id_usuario_fk = id_usuario";
-		try {
+	public Blog procurar(Integer id) throws SQLException {
+		String sql = "select * from blog "
+				+ "	inner join usuario on blog_id_usuario_fk = usuario_id";
+		
+		if(existe(id)){
 			PreparedStatement preStatement = con.prepareStatement(sql);
-			
 			ResultSet resultSet = preStatement.executeQuery();			
-			
 			while(resultSet.next()){
-				if(resultSet.getInt("id_blog") == id){
+				if(resultSet.getInt("blog_id") == id){
+					Usuario user = new Usuario(resultSet.getString("usuario_nome"), resultSet.getString("usuario_email"));
+					user.setId(resultSet.getInt("usuario_id"));
 					
-					Usuario user = new Usuario(resultSet.getString("nome"), resultSet.getString("email"));
-					
-					user.setId(resultSet.getInt("id_usuario"));
-					
-					Blog blog = new Blog(resultSet.getString("data"), user, resultSet.getString("titulo"));
-					
-					blog.setIdBlog(resultSet.getInt("id_blog"));
+					Blog blog = new Blog(resultSet.getString("blog_data"), user, resultSet.getString("blog_titulo"));
+					blog.setIdBlog(resultSet.getInt("blog_id"));
 					
 					return blog;
 				}
 			}
+		
 			preStatement.close();
 			resultSet.close();
 			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		
 		return null;
 	}
 
 	@Override
-	public boolean existe(Integer id) {
+	public boolean existe(Integer id) throws SQLException {
 		String sql = "select * from blog";
-		try {
-			PreparedStatement preStatement = con.prepareStatement(sql);
-			ResultSet resultSet = preStatement.executeQuery();			
-			while(resultSet.next()){
-				if(resultSet.getInt("id_blog") == id){
-					return true;
-				}
+		
+		PreparedStatement preStatement = con.prepareStatement(sql);
+		ResultSet resultSet = preStatement.executeQuery();			
+		while(resultSet.next()){
+			if(resultSet.getInt("blog_id") == id){
+				return true;
 			}
-			preStatement.close();
-			resultSet.close();
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		
+		preStatement.close();
+		resultSet.close();
+		con.close();
+		
 		return false;
 	}
 
 	@Override
 	public ArrayList<Blog> listar() throws SQLException {
 		ArrayList<Blog> listaBlog = new ArrayList<>();
-		String sql = "select * from blog inner join usuario on id_usuario_fk = id_usuario";	
+		
+		String sql = "select * from blog inner join usuario on blog_id_usuario_fk = usuario_id";	
 		
 		PreparedStatement preStatement = con.prepareStatement(sql);
 		
 		ResultSet resultSet = preStatement.executeQuery();
 				
 		while(resultSet.next()){
-			Usuario user = new Usuario(resultSet.getString("nome"), resultSet.getString("email"));
-			user.setId(resultSet.getInt("id_usuario"));
+			Usuario user = new Usuario(resultSet.getString("usuario_nome"), resultSet.getString("usuario_email"));
+			user.setId(resultSet.getInt("usuario_id"));
 			
-			Blog blog = new Blog(resultSet.getString("data"), user , resultSet.getString("titulo"));
+			Blog blog = new Blog(resultSet.getString("blog_data"), user , resultSet.getString("blog_titulo"));
 			blog.setIdBlog(resultSet.getInt(1));
 			
 			listaBlog.add(blog);
